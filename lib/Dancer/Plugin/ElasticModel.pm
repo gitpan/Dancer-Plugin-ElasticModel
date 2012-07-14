@@ -1,6 +1,6 @@
 package Dancer::Plugin::ElasticModel;
 {
-  $Dancer::Plugin::ElasticModel::VERSION = '0.01';
+  $Dancer::Plugin::ElasticModel::VERSION = '0.02';
 }
 
 use strict;
@@ -48,7 +48,7 @@ Dancer::Plugin::ElasticModel - Use Elastic::Model in your Dancer application
 
 =head1 VERSION
 
-version 0.01
+version 0.02
 
 =head1 SYNOPSIS
 
