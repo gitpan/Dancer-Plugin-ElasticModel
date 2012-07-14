@@ -1,0 +1,71 @@
+NAME
+    Dancer::Plugin::ElasticModel - Use Elastic::Model in your Dancer
+    application
+
+VERSION
+    version 0.01
+
+SYNOPSIS
+        use Dancer::Plugin::ElasticModel;
+
+        emodel->domain('myapp')->create( user => { name => 'Joe Bloggs' });
+
+        my $results = emodel->view->search;
+
+DESCRIPTION
+    Easy access to your Elastic::Model-based application from within your
+    Dancer apps.
+
+METHODS
+  emodel()
+    When you "use Dancer::Plugin::ElasticModel;" it will import a single
+    method "emodel()" which gives you access to the model that you have
+    configured in your "config.yml" file.
+
+CONFIG
+        plugins:
+            ElasticModel:
+                model:          MyApp
+                es:
+                    servers:    es1.mydomain.com:9200
+                    transport:  http
+
+    The "model" should be the name of your model class (which uses
+    Elastic::Model). Any parameters specified in "es" will be passed
+    directly to "new()" in ElasticSearch.
+
+SEE ALSO
+    *   Elastic::Model
+
+    *   Dancer
+
+    *   ElasticSearch
+
+SUPPORT
+    You can find documentation for this module with the perldoc command.
+
+        perldoc Dancer::Plugin::ElasticModel
+
+    You can also look for information at:
+
+    *   GitHub
+
+        <http://github.com/clintongormley/Dancer-Plugin-ElasticModel>
+
+    *   CPAN Ratings
+
+        <http://cpanratings.perl.org/d/Dancer-Plugin-ElasticModel>
+
+    *   Search MetaCPAN
+
+        <https://metacpan.org/module/Dancer::Plugin::ElasticModel>
+
+AUTHOR
+    Clinton Gormley <drtech@cpan.org>
+
+COPYRIGHT AND LICENSE
+    This software is copyright (c) 2012 by Clinton Gormley.
+
+    This is free software; you can redistribute it and/or modify it under
+    the same terms as the Perl 5 programming language system itself.
+
