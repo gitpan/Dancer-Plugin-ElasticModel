@@ -3,24 +3,22 @@ NAME
     application
 
 VERSION
-    version 0.02
+    version 0.03
 
 SYNOPSIS
         use Dancer::Plugin::ElasticModel;
 
-        emodel->domain('myapp')->create( user => { name => 'Joe Bloggs' });
+        emodel->namespace('myapp')->index->create;
+
+        edomain('myapp')->create( user => { name => 'Joe Bloggs' });
+
+        my $results = eview('users)->search;
 
         my $results = emodel->view->search;
 
 DESCRIPTION
     Easy access to your Elastic::Model-based application from within your
     Dancer apps.
-
-METHODS
-  emodel()
-    When you "use Dancer::Plugin::ElasticModel;" it will import a single
-    method "emodel()" which gives you access to the model that you have
-    configured in your "config.yml" file.
 
 CONFIG
         plugins:
@@ -29,10 +27,36 @@ CONFIG
                 es:
                     servers:    es1.mydomain.com:9200
                     transport:  http
+                views:
+                    users:
+                        domain: myapp
+                        type:   user
 
     The "model" should be the name of your model class (which uses
     Elastic::Model). Any parameters specified in "es" will be passed
     directly to "new()" in ElasticSearch.
+
+    Optionally, you can predefine named views, eg the "users" view above is
+    the equivalent of:
+
+        $view = $model->view( domain => 'myapp', type => 'user' );
+
+METHODS
+  emodel()
+    "emodel()" gives you access to the model that you have configured in
+    your "config.yml" file.
+
+  edomain()
+        $domain = edomain('mydomain');
+
+    "edomain()" is a shortcut for:
+
+        $domain = emodel->domain('mydomain');
+
+  eview()
+        $users = eview('users')->search:
+
+    Access the "views" that you predefined in your "CONFIG".
 
 SEE ALSO
     *   Elastic::Model

@@ -28,10 +28,11 @@ my %WriteMakefileArgs = (
   "PREREQ_PM" => {
     "Dancer" => 0,
     "Dancer::Plugin" => 0,
+    "Elastic::Model" => "0.04",
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "0.02",
+  "VERSION" => "0.03",
   "test" => {
     "TESTS" => "t/*.t"
   }
