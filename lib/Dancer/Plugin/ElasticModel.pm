@@ -1,6 +1,6 @@
 package Dancer::Plugin::ElasticModel;
 {
-  $Dancer::Plugin::ElasticModel::VERSION = '0.03';
+  $Dancer::Plugin::ElasticModel::VERSION = '0.04';
 }
 
 use strict;
@@ -73,7 +73,7 @@ Dancer::Plugin::ElasticModel - Use Elastic::Model in your Dancer application
 
 =head1 VERSION
 
-version 0.03
+version 0.04
 
 =head1 SYNOPSIS
 
@@ -84,8 +84,6 @@ version 0.03
     edomain('myapp')->create( user => { name => 'Joe Bloggs' });
 
     my $results = eview('users)->search;
-
-    my $results = emodel->view->search;
 
 =head1 DESCRIPTION
 

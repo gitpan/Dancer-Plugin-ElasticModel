@@ -33,6 +33,7 @@
             "Dancer::Test" : "0",
             "Elastic::Doc" : "0",
             "Elastic::Model" : "0",
+            "ElasticSearch" : "0",
             "Test::Exception" : "0",
             "Test::More" : "0"
          }
@@ -49,6 +50,6 @@
          "web" : "https://github.com/clintongormley/Dancer-Plugin-ElasticModel"
       }
    },
-   "version" : "0.03"
+   "version" : "0.04"
 }
 

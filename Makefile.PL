@@ -15,6 +15,7 @@ my %WriteMakefileArgs = (
     "Dancer::Test" => 0,
     "Elastic::Doc" => 0,
     "Elastic::Model" => 0,
+    "ElasticSearch" => 0,
     "Test::Exception" => 0,
     "Test::More" => 0
   },
@@ -32,7 +33,7 @@ my %WriteMakefileArgs = (
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "0.03",
+  "VERSION" => "0.04",
   "test" => {
     "TESTS" => "t/*.t"
   }

@@ -3,7 +3,7 @@ NAME
     application
 
 VERSION
-    version 0.03
+    version 0.04
 
 SYNOPSIS
         use Dancer::Plugin::ElasticModel;
@@ -13,8 +13,6 @@ SYNOPSIS
         edomain('myapp')->create( user => { name => 'Joe Bloggs' });
 
         my $results = eview('users)->search;
-
-        my $results = emodel->view->search;
 
 DESCRIPTION
     Easy access to your Elastic::Model-based application from within your
