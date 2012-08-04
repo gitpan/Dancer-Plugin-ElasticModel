@@ -3,7 +3,7 @@ NAME
     application
 
 VERSION
-    version 0.04
+    version 0.05
 
 SYNOPSIS
         use Dancer::Plugin::ElasticModel;
@@ -22,6 +22,8 @@ CONFIG
         plugins:
             ElasticModel:
                 model:          MyApp
+                global_scope:   0
+                request_scope:  1
                 es:
                     servers:    es1.mydomain.com:9200
                     transport:  http
@@ -30,14 +32,41 @@ CONFIG
                         domain: myapp
                         type:   user
 
+  model
     The "model" should be the name of your model class (which uses
-    Elastic::Model). Any parameters specified in "es" will be passed
-    directly to "new()" in ElasticSearch.
+    Elastic::Model).
 
+  es
+    Any parameters specified in "es" will be passed directly to "new()" in
+    ElasticSearch.
+
+  views
     Optionally, you can predefine named views, eg the "users" view above is
     the equivalent of:
 
         $view = $model->view( domain => 'myapp', type => 'user' );
+
+  Scoping
+    Scoping is not enabled by default.
+
+    If you want to automatically create a new scope at the beginning of each
+    request, you can do so with:
+
+        request_scope: 1
+
+    The request scope is cleaned up at the end of the request.
+
+    You can also create a global scope which is not cleaned up until the
+    application exits, with:
+
+        global_scope:   1
+
+    Objects that are loaded in the global scope will remain cached in memory
+    until your application exits. This is useful only for big objects that
+    seldom change. The only way to refresh the object is by restarting your
+    application.
+
+    See Elastic::Manual::Scoping for more.
 
 METHODS
   emodel()
@@ -52,9 +81,14 @@ METHODS
         $domain = emodel->domain('mydomain');
 
   eview()
-        $users = eview('users')->search:
+    Access the "views" that you predefined in your "CONFIG":
 
-    Access the "views" that you predefined in your "CONFIG".
+        $users = eview('users')->search;
+
+    Or create a new view:
+
+        $users = eview(domain=>'myapp', type => 'user');
+        $users = eview->domain('myapp')->type('user');
 
 SEE ALSO
     *   Elastic::Model

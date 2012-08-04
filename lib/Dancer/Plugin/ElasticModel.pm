@@ -1,6 +1,6 @@
 package Dancer::Plugin::ElasticModel;
 {
-  $Dancer::Plugin::ElasticModel::VERSION = '0.04';
+  $Dancer::Plugin::ElasticModel::VERSION = '0.05';
 }
 
 use strict;
@@ -18,9 +18,13 @@ register emodel => sub {
 #===================================
 register eview => sub {
 #===================================
-    my $view = shift || '';
-    return _setup_model()->{views}{$view}
-        || die "Unknown view ($view)";
+    my $cache = _setup_model();
+    if ( @_ == 1 ) {
+        my $view = shift || '';
+        return $cache->{views}{$view}
+            || die "Unknown view ($view)";
+    }
+    return $cache->{model}->view(@_);
 };
 
 #===================================
@@ -51,10 +55,23 @@ sub _setup_model {
     my %views = map { $_ => $model->view( %{ $view_conf->{$_} } ) }
         keys %$view_conf;
 
-    return $settings->{_cache} = {
-        model => $model,
-        views => \%views,
-    };
+    my %cache = ( model => $model, views => \%views );
+
+    if ( $settings->{global_scope} ) {
+        debug "Creating Elastic::Model global scope";
+        $cache{global_scope} = $model->new_scope;
+    }
+    if ( $settings->{request_scope} ) {
+        hook 'before' => sub {
+            debug "Creating Elastic::Model request scope";
+            var _elastic_model_scope => $model->new_scope;
+        };
+        hook 'after' => sub {
+            debug "Freeing Elastic::Model request scope";
+            delete vars->{_elastic_model_scope};
+        };
+    }
+    return $settings->{_cache} = \%cache;
 }
 
 register_plugin;
@@ -73,7 +90,7 @@ Dancer::Plugin::ElasticModel - Use Elastic::Model in your Dancer application
 
 =head1 VERSION
 
-version 0.04
+version 0.05
 
 =head1 SYNOPSIS
 
@@ -95,6 +112,8 @@ L<Dancer> apps.
     plugins:
         ElasticModel:
             model:          MyApp
+            global_scope:   0
+            request_scope:  1
             es:
                 servers:    es1.mydomain.com:9200
                 transport:  http
@@ -103,14 +122,45 @@ L<Dancer> apps.
                     domain: myapp
                     type:   user
 
+=head2 model
+
 The C<model> should be the name of your model class (which uses
-L<Elastic::Model>). Any parameters specified in C<es> will be passed
-directly to L<ElasticSearch/new()>.
+L<Elastic::Model>).
+
+=head2 es
+
+Any parameters specified in C<es> will be passed directly to
+L<ElasticSearch/new()>.
+
+=head2 views
 
 Optionally, you can predefine named L<views|Elastic::Model::View>, eg
 the C<users> view above is the equivalent of:
 
     $view = $model->view( domain => 'myapp', type => 'user' );
+
+=head2 Scoping
+
+Scoping is not enabled by default.
+
+If you want to automatically create a new scope at the beginning of each
+request, you can do so with:
+
+    request_scope: 1
+
+The request scope is cleaned up at the end of the request.
+
+You can also create a global scope which is not cleaned
+up until the application exits, with:
+
+    global_scope:   1
+
+Objects that are loaded in the global scope will remain cached in memory
+until your application exits.  This is useful only for big objects that
+seldom change. The only way to refresh the object is by restarting your
+application.
+
+See L<Elastic::Manual::Scoping> for more.
 
 =head1 METHODS
 
@@ -129,9 +179,14 @@ L</edomain()> is a shortcut for:
 
 =head2 eview()
 
-    $users = eview('users')->search:
+Access the C<views> that you predefined in your L</CONFIG>:
 
-Access the C<views> that you predefined in your L</CONFIG>.
+    $users = eview('users')->search;
+
+Or create a new view:
+
+    $users = eview(domain=>'myapp', type => 'user');
+    $users = eview->domain('myapp')->type('user');
 
 =head1 SEE ALSO
 
