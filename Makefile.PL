@@ -11,14 +11,7 @@ use ExtUtils::MakeMaker 6.30;
 my %WriteMakefileArgs = (
   "ABSTRACT" => "Use Elastic::Model in your Dancer application",
   "AUTHOR" => "Clinton Gormley <drtech\@cpan.org>",
-  "BUILD_REQUIRES" => {
-    "Dancer::Test" => 0,
-    "Elastic::Doc" => 0,
-    "Elastic::Model" => 0,
-    "ElasticSearch" => 0,
-    "Test::Exception" => 0,
-    "Test::More" => 0
-  },
+  "BUILD_REQUIRES" => {},
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => "6.30"
   },
@@ -29,16 +22,38 @@ my %WriteMakefileArgs = (
   "PREREQ_PM" => {
     "Dancer" => 0,
     "Dancer::Plugin" => 0,
-    "Elastic::Model" => "0.04",
+    "Elastic::Model" => "0.27",
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "0.05",
+  "TEST_REQUIRES" => {
+    "Dancer::Test" => 0,
+    "Elastic::Doc" => 0,
+    "Elastic::Model" => 0,
+    "Elasticsearch::Compat" => 0,
+    "Test::Exception" => 0,
+    "Test::More" => 0,
+    "lib" => 0
+  },
+  "VERSION" => "0.06",
   "test" => {
     "TESTS" => "t/*.t"
   }
 );
 
+
+unless ( eval { ExtUtils::MakeMaker->VERSION(6.63_03) } ) {
+  my $tr = delete $WriteMakefileArgs{TEST_REQUIRES};
+  my $br = $WriteMakefileArgs{BUILD_REQUIRES};
+  for my $mod ( keys %$tr ) {
+    if ( exists $br->{$mod} ) {
+      $br->{$mod} = $tr->{$mod} if $tr->{$mod} > $br->{$mod};
+    }
+    else {
+      $br->{$mod} = $tr->{$mod};
+    }
+  }
+}
 
 unless ( eval { ExtUtils::MakeMaker->VERSION(6.56) } ) {
   my $br = delete $WriteMakefileArgs{BUILD_REQUIRES};

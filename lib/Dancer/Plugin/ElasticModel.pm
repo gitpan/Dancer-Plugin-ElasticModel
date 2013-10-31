@@ -1,6 +1,6 @@
 package Dancer::Plugin::ElasticModel;
 {
-  $Dancer::Plugin::ElasticModel::VERSION = '0.05';
+  $Dancer::Plugin::ElasticModel::VERSION = '0.06';
 }
 
 use strict;
@@ -48,7 +48,7 @@ sub _setup_model {
     die "Error loading model ($model_class): $err"
         unless $res;
 
-    my $es = ElasticSearch->new( %{ $settings->{es} || {} } );
+    my $es = Elasticsearch::Compat->new( %{ $settings->{es} || {} } );
     my $model = $model_class->new( es => $es );
 
     my $view_conf = $settings->{views} || {};
@@ -80,8 +80,8 @@ true;
 
 # ABSTRACT: Use Elastic::Model in your Dancer application
 
-
 __END__
+
 =pod
 
 =head1 NAME
@@ -90,7 +90,7 @@ Dancer::Plugin::ElasticModel - Use Elastic::Model in your Dancer application
 
 =head1 VERSION
 
-version 0.05
+version 0.06
 
 =head1 SYNOPSIS
 
@@ -130,7 +130,7 @@ L<Elastic::Model>).
 =head2 es
 
 Any parameters specified in C<es> will be passed directly to
-L<ElasticSearch/new()>.
+L<Elasticsearch::Compat/new()>.
 
 =head2 views
 
@@ -202,7 +202,7 @@ L<Dancer>
 
 =item *
 
-L<ElasticSearch>
+L<Elasticsearch::Compat>
 
 =back
 
@@ -236,10 +236,9 @@ Clinton Gormley <drtech@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Clinton Gormley.
+This software is copyright (c) 2013 by Clinton Gormley.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 =cut
-
