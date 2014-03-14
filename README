@@ -3,7 +3,7 @@ NAME
     application
 
 VERSION
-    version 0.06
+    version 0.07
 
 SYNOPSIS
         use Dancer::Plugin::ElasticModel;
@@ -38,7 +38,7 @@ CONFIG
 
   es
     Any parameters specified in "es" will be passed directly to "new()" in
-    Elasticsearch::Compat.
+    Search::Elasticsearch::Compat.
 
   views
     Optionally, you can predefine named views, eg the "users" view above is
@@ -95,7 +95,7 @@ SEE ALSO
 
     *   Dancer
 
-    *   Elasticsearch::Compat
+    *   Search::Elasticsearch::Compat
 
 SUPPORT
     You can find documentation for this module with the perldoc command.
@@ -120,7 +120,7 @@ AUTHOR
     Clinton Gormley <drtech@cpan.org>
 
 COPYRIGHT AND LICENSE
-    This software is copyright (c) 2013 by Clinton Gormley.
+    This software is copyright (c) 2014 by Clinton Gormley.
 
     This is free software; you can redistribute it and/or modify it under
     the same terms as the Perl 5 programming language system itself.
