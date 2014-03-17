@@ -34,9 +34,10 @@ my %WriteMakefileArgs = (
     "Search::Elasticsearch::Compat" => 0,
     "Test::Exception" => 0,
     "Test::More" => 0,
+    "YAML" => 0,
     "lib" => 0
   },
-  "VERSION" => "0.07",
+  "VERSION" => "0.08",
   "test" => {
     "TESTS" => "t/*.t"
   }
@@ -52,6 +53,7 @@ my %FallbackPrereqs = (
   "Search::Elasticsearch::Compat" => 0,
   "Test::Exception" => 0,
   "Test::More" => 0,
+  "YAML" => 0,
   "lib" => 0,
   "strict" => 0,
   "warnings" => 0

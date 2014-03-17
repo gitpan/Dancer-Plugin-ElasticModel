@@ -43,6 +43,7 @@
             "Search::Elasticsearch::Compat" : "0",
             "Test::Exception" : "0",
             "Test::More" : "0",
+            "YAML" : "0",
             "lib" : "0"
          }
       }
@@ -58,6 +59,6 @@
          "web" : "https://github.com/clintongormley/Dancer-Plugin-ElasticModel"
       }
    },
-   "version" : "0.07"
+   "version" : "0.08"
 }
 
